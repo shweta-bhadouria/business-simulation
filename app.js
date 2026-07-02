@@ -1,6 +1,6 @@
 /* GitHub Pages + Google Sheet storage. No localStorage. */
-const APPS_SCRIPT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
-const SHEET_URL = "PASTE_YOUR_GOOGLE_SHEET_URL_HERE";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzmQcOutlqRLJqN0EKZU5h47Y2LUhCgDL6sbYXlG2yiLoFN3HqqmbcFPFn-vzxYC1zj/exec";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/19oOrnAzZ1bcCEglXCMlQwbm_dEXy2ARrtXtYwlwFDHM/edit?usp=sharing";
 const ADMIN_PIN = "ADMIN2026";
 const TEAM_CODES = ['ALPHA','BETA','GAMMA','DELTA','OMEGA','SIGMA'];
 const TEAM_NAMES = {ALPHA:'Team Alpha',BETA:'Team Beta',GAMMA:'Team Gamma',DELTA:'Team Delta',OMEGA:'Team Omega',SIGMA:'Team Sigma'};
