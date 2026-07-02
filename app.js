@@ -1,6 +1,6 @@
 
-const APPS_SCRIPT_URL="PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
-const SHEET_URL="PASTE_YOUR_GOOGLE_SHEET_URL_HERE";
+const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbwQF1AQwLaB_DjShOsZ3YbOItVKXs035Y3zP8dpy3dkLjpbY9AwhCwuQfui1a2_HbyN/exec";
+const SHEET_URL="https://docs.google.com/spreadsheets/d/19oOrnAzZ1bcCEglXCMlQwbm_dEXy2ARrtXtYwlwFDHM/edit?usp=sharing";
 const ADMIN_PIN="ADMIN2026";
 const TEAM_CODES=['ALPHA','BETA','GAMMA','DELTA','OMEGA','SIGMA'];
 const TEAM_NAMES={ALPHA:'Team Alpha',BETA:'Team Beta',GAMMA:'Team Gamma',DELTA:'Team Delta',OMEGA:'Team Omega',SIGMA:'Team Sigma'};
