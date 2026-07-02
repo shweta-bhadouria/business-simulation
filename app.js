@@ -471,6 +471,19 @@ async function nextRound() {
   render();
 }
 
+
+function scrollToLongTermReveal(){
+  setTimeout(function(){
+    var el = document.getElementById("latestLongTermReveal");
+    if(el){
+      el.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  }, 150);
+}
+
 async function revealLT() {
   let t = active();
   let i = t.delays.findIndex(d => !d.applied);
@@ -507,6 +520,7 @@ async function revealLT() {
 
   await postSave(t, [ev], []);
   render();
+  scrollToLongTermReveal();
 }
 
 async function startPhase2() {
@@ -791,48 +805,66 @@ function play(t) {
   `;
 }
 
-function admin() {
+
+function admin(){
   return `
     <div class="card pad">
       <div class="row">
         <h3>Admin Dashboard</h3>
         <button class="btn light" onclick="refreshAdmin()">Refresh Scores</button>
-        ${SHEET_URL.includes("PASTE_") ? "" : `${SHEET_URL}Open Sheet / Download Excel</a>`}
+        ${
+          SHEET_URL.includes("PASTE_")
+            ? ""
+            : `${SHEET_URL}Open Sheet / Download Excel</a>`
+        }
       </div>
 
       <p class="muted small">
         Team-wise score, decision summary, long-term impacts and risk card impacts.
-        Admin cannot play the simulation.
       </p>
 
-      <div class="grid g2">
+      <div class="admin-grid">
         ${
-          G.adminResults.map(r => {
+          TEAM_CODES.map(code => {
+            const r = G.adminResults.find(x => x.teamCode === code) || {
+              teamCode: code,
+              teamName: TEAM_NAMES[code],
+              phase: "",
+              round: "",
+              risk: "",
+              score: 0,
+              state: "",
+              updatedAt: ""
+            };
+
             let st = null;
 
             try {
               st = r.state ? JSON.parse(r.state) : null;
-            } catch (e) {
+            } catch(e) {
               st = null;
             }
 
-            let dec = st && st.decisions ? st.decisions : [];
-            let lt = st && st.hist ? st.hist.filter(h => h.type === "Long-Term") : [];
-            let rk = st && st.hist ? st.hist.filter(h => h.type === "Risk Card") : [];
+            const dec = st && st.decisions ? st.decisions : [];
+            const lt = st && st.hist ? st.hist.filter(h => h.type === "Long-Term") : [];
+            const rk = st && st.hist ? st.hist.filter(h => h.type === "Risk Card") : [];
 
             return `
-              <div class="item">
-                <div class="row">
-                  <div>
-                    <b>${r.teamName || r.teamCode}</b>
-                    <div class="small muted">
-                      ${r.phase || ""} · Round ${r.round || ""} · Risk ${r.risk || ""}
-                    </div>
-                  </div>
-                  <div class="score">${r.score || 0}</div>
+              <div class="admin-team-card">
+                <div>
+                  <b>${r.teamName || TEAM_NAMES[code]}</b>
+                  <div class="small muted">${code}</div>
                 </div>
 
-                <h4>Decision Summary</h4>
+                <div class="score">${r.score || 0}</div>
+
+                <div class="small muted">
+                  ${r.phase || "Not started"} 
+                  ${r.round ? `· Round ${r.round}` : ""} 
+                  ${r.risk ? `· Risk ${r.risk}` : ""}
+                </div>
+
+                <h4>Decisions</h4>
                 ${
                   dec.length
                     ? `
@@ -841,20 +873,15 @@ function admin() {
                           dec.map(d => `
                             <li>
                               <b>R${d.round}:</b> ${d.decisionTitle || d.title || ""}
-                              ${
-                                d.asset
-                                  ? `<div class="muted">Asset/Debt: ${d.asset}</div>`
-                                  : ""
-                              }
                             </li>
                           `).join("")
                         }
                       </ol>
                     `
-                    : `<p class="small muted">No decisions recorded yet.</p>`
+                    : `<p class="small muted">No decisions yet.</p>`
                 }
 
-                <h4>Long-Term Impacts Applied</h4>
+                <h4>Long-Term</h4>
                 ${
                   lt.length
                     ? `
@@ -862,18 +889,18 @@ function admin() {
                         ${
                           lt.map(h => `
                             <li>
-                              <b>${h.label || "Long-Term Impact"}:</b> ${fmt(h.impact) || "No score change"}
-                              <div class="muted">${h.explain || h.explanation || ""}</div>
-                              <div><b>Score after impact:</b> ${h.score || ""}</div>
+                              <b>${h.label || "Impact"}:</b>
+                              ${fmt(h.impact) || "No score change"}
+                              <div class="muted">Score: ${h.score || ""}</div>
                             </li>
                           `).join("")
                         }
                       </ol>
                     `
-                    : `<p class="small muted">No long-term impacts applied yet.</p>`
+                    : `<p class="small muted">Not applied yet.</p>`
                 }
 
-                <h4>Risk Card Impacts</h4>
+                <h4>Risk Cards</h4>
                 ${
                   rk.length
                     ? `
@@ -881,21 +908,23 @@ function admin() {
                         ${
                           rk.map(h => `
                             <li>
-                              <b>${h.label || "Risk Card"}:</b> ${fmt(h.impact) || "No score change"}
-                              <div class="muted">${h.explain || h.explanation || ""}</div>
-                              <div><b>Score after risk:</b> ${h.score || ""}</div>
+                              <b>${h.label || "Risk"}:</b>
+                              ${fmt(h.impact) || "No score change"}
+                              <div class="muted">Score: ${h.score || ""}</div>
                             </li>
                           `).join("")
                         }
                       </ol>
                     `
-                    : `<p class="small muted">No risk card impacts applied yet.</p>`
+                    : `<p class="small muted">No risk cards yet.</p>`
                 }
 
-                <p class="small muted">Updated ${r.updatedAt || ""}</p>
+                <p class="small muted">
+                  Updated ${r.updatedAt || ""}
+                </p>
               </div>
             `;
-          }).join("") || '<p class="muted">No results yet. Ask teams to play, then refresh.</p>'
+          }).join("")
         }
       </div>
     </div>
@@ -1078,7 +1107,7 @@ function render() {
       </div>
     </div>
 
-    <div class="layout wrap">
+    <div class="${G.session === 'admin' ? 'wrap' : 'layout wrap'}">
       <main>
         ${G.session === "admin" ? "" : dash(t)}
         ${G.session === "admin" ? "" : '<div style="height:16px"></div>'}
@@ -1106,9 +1135,7 @@ function render() {
         }
       </main>
 
-      <aside>
-        ${side(t)}
-      </aside>
+      ${G.session === "admin" ? "" : `<aside>${side(t)}</aside>`}
     </div>
 
     ${status()}
