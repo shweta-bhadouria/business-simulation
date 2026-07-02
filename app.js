@@ -1,5 +1,6 @@
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz9J1A7tjjhmfdfLQQK8oDrfEclZ3i6KldnrhOUWBmq2yfRmzrc1nG4gv6XKxMglPt3/exec";
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/19oOrnAzZ1bcCEglXCMlQwbm_dEXy2ARrtXtYwlwFDHM/edit?usp=sharing";
+const SHEET_EXPORT_URL="https://docs.google.com/spreadsheets/d/19oOrnAzZ1bcCEglXCMlQwbm_dEXy2ARrtXtYwlwFDHM/export?format=xlsx";
 const ADMIN_PIN = "ADMIN2026";
 
 const TEAM_CODES = ["ALPHA", "BETA", "GAMMA", "DELTA", "OMEGA", "SIGMA"];
@@ -812,11 +813,7 @@ function admin(){
       <div class="row">
         <h3>Admin Dashboard</h3>
         <button class="btn light" onclick="refreshAdmin()">Refresh Scores</button>
-        ${
-          SHEET_URL.includes("PASTE_")
-            ? ""
-            : `${SHEET_URL}Open Sheet / Download Excel</a>`
-        }
+        ${SHEET_URL.includes("PASTE_") ? "" : `<a class="btn greenbtn" href="${SHEET_URL}" target="_blank">Open Sheet</a><a class="btn greenbtn" href="${SHEET_EXPORT_URL}" target="_blank">Download Excel</a>`}
       </div>
 
       <p class="muted small">
