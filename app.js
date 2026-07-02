@@ -813,7 +813,7 @@ function admin(){
       <div class="row">
         <h3>Admin Dashboard</h3>
         <button class="btn light" onclick="refreshAdmin()">Refresh Scores</button>
-        ${SHEET_URL.includes("PASTE_") ? "" : `<a class="btn greenbtn" href="${SHEET_URL}" target="_blank">Open Sheet</a><a class="btn greenbtn" href="${SHEET_EXPORT_URL}" target="_blank">Download Excel</a>`}
+        ${SHEET_URL.includes("PASTE_") ? "" : `<a class="btn greenbtn" href="${SHEET_URL}" target="_blank">Open Sheet</a>`}
       </div>
 
       <p class="muted small">
