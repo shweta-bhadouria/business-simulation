@@ -1,4 +1,4 @@
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQF1AQwLaB_DjShOsZ3YbOItVKXs035Y3zP8dpy3dkLjpbY9AwhCwuQfui1a2_HbyN/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz9J1A7tjjhmfdfLQQK8oDrfEclZ3i6KldnrhOUWBmq2yfRmzrc1nG4gv6XKxMglPt3/exec";
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/19oOrnAzZ1bcCEglXCMlQwbm_dEXy2ARrtXtYwlwFDHM/edit?usp=sharing";
 const ADMIN_PIN = "ADMIN2026";
 
