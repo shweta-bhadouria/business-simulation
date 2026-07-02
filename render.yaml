@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: startup-strategy-simulation
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: ADMIN_PIN
+        value: ADMIN2026
